@@ -1,3 +1,19 @@
+// ===== CRYPTO SLIDESHOW =====
+const slides = document.querySelectorAll('.crypto-slideshow .slide');
+const dots = document.querySelectorAll('.slide-dots .dot');
+let currentSlide = 0;
+
+function goToSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+
+dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+if (slides.length > 0) setInterval(() => goToSlide(currentSlide + 1), 3000);
+
 // ===== CUSTOM CURSOR =====
 const cursor = document.getElementById('cursor');
 const cursorFollower = document.getElementById('cursorFollower');
