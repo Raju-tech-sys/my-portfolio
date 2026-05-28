@@ -4,6 +4,7 @@ const dots = document.querySelectorAll('.slide-dots .dot');
 let currentSlide = 0;
 
 function goToSlide(n) {
+  if(!slides.length) return;
   slides[currentSlide].classList.remove('active');
   dots[currentSlide].classList.remove('active');
   currentSlide = (n + slides.length) % slides.length;
@@ -23,34 +24,65 @@ let followerX = 0, followerY = 0;
 document.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
-  cursor.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
+  if(cursor) cursor.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
 });
 
 function animateFollower() {
   followerX += (mouseX - followerX) * 0.12;
   followerY += (mouseY - followerY) * 0.12;
-  cursorFollower.style.transform = `translate(${followerX - 16}px, ${followerY - 16}px)`;
+  if(cursorFollower) cursorFollower.style.transform = `translate(${followerX - 16}px, ${followerY - 16}px)`;
   requestAnimationFrame(animateFollower);
 }
 animateFollower();
 
+// Cursor Hover Effects
 document.querySelectorAll('a, button, .service-card, .project-card, .faq-q, .tool-tag').forEach(el => {
   el.addEventListener('mouseenter', () => {
-    cursor.style.transform += ' scale(2)';
-    cursorFollower.style.opacity = '0.5';
+    if(cursor) cursor.classList.add('cursor-hover');
+    if(cursorFollower) cursorFollower.style.opacity = '0.5';
   });
   el.addEventListener('mouseleave', () => {
-    cursorFollower.style.opacity = '1';
+    if(cursor) cursor.classList.remove('cursor-hover');
+    if(cursorFollower) cursorFollower.style.opacity = '1';
+  });
+});
+
+// ===== MAGNETIC BUTTONS =====
+const magnetBtns = document.querySelectorAll('.nav-cta, .btn-gold, .btn-outline');
+magnetBtns.forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = `translate(0px, 0px)`;
+  });
+});
+
+// ===== 3D TILT EFFECT FOR CARDS =====
+document.querySelectorAll('.project-card, .service-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-5px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
   });
 });
 
 // ===== NAV SCROLL =====
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 60) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
+  if(nav) {
+    if (window.scrollY > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
   }
 });
 
@@ -59,33 +91,50 @@ const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 let menuOpen = false;
 
-hamburger.addEventListener('click', () => {
-  menuOpen = !menuOpen;
-  mobileMenu.classList.toggle('open', menuOpen);
-  document.body.style.overflow = menuOpen ? 'hidden' : '';
+if(hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
 
-  const spans = hamburger.querySelectorAll('span');
-  if (menuOpen) {
-    spans[0].style.transform = 'translateY(7px) rotate(45deg)';
-    spans[1].style.opacity = '0';
-    spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
-  } else {
-    spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
-  }
-});
+    const spans = hamburger.querySelectorAll('span');
+    if (menuOpen) {
+      spans[0].style.transform = 'translateY(7px) rotate(45deg)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+    } else {
+      spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    }
+  });
+}
 
 function closeMobile() {
   menuOpen = false;
-  mobileMenu.classList.remove('open');
+  if(mobileMenu) mobileMenu.classList.remove('open');
   document.body.style.overflow = '';
-  hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+  if(hamburger) hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
 }
 
-// ===== SCROLL REVEAL =====
-const revealEls = document.querySelectorAll('.reveal');
+// ===== TYPEWRITER EFFECT =====
+const typewriterEl = document.getElementById('typewriter');
+if(typewriterEl) {
+  const text = typewriterEl.textContent;
+  typewriterEl.textContent = '';
+  let i = 0;
+  function typeWriter() {
+    if (i < text.length) {
+      typewriterEl.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, 50); // Speed of typing
+    }
+  }
+  setTimeout(typeWriter, 800); // Start delay
+}
 
+// ===== SCROLL REVEAL (Standard) =====
+const revealEls = document.querySelectorAll('.reveal:not(.service-card):not(.project-card)');
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) {
       setTimeout(() => {
         entry.target.classList.add('visible');
@@ -94,28 +143,51 @@ const revealObserver = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
 revealEls.forEach(el => revealObserver.observe(el));
+
+// ===== SCROLL REVEAL (Staggered for Grids) =====
+document.querySelectorAll('.services-grid, .projects-grid').forEach(grid => {
+  const cards = grid.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), i * 120);
+      });
+      obs.disconnect();
+    }
+  }, { threshold: 0.15 });
+  obs.observe(grid);
+});
 
 // ===== COUNTER ANIMATION =====
 const statNums = document.querySelectorAll('.stat-num');
 let countersStarted = false;
+
+// Easing function: easeOutQuart
+function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
 
 const counterObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting && !countersStarted) {
     countersStarted = true;
     statNums.forEach(el => {
       const target = parseInt(el.getAttribute('data-target'));
-      let current = 0;
-      const step = Math.ceil(target / 60);
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= target) {
-          current = target;
-          clearInterval(timer);
-        }
+      const duration = 2000; // ms
+      let startTimestamp = null;
+      
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easedProgress = easeOutQuart(progress);
+        const current = Math.floor(easedProgress * target);
+        
         el.textContent = current;
-      }, 25);
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          el.textContent = target; // Ensure exact final value
+        }
+      };
+      window.requestAnimationFrame(step);
     });
   }
 }, { threshold: 0.5 });
@@ -124,8 +196,6 @@ const heroStats = document.querySelector('.hero-stats');
 if (heroStats) counterObserver.observe(heroStats);
 
 // ===== SKILL BAR ANIMATION =====
-const skillFills = document.querySelectorAll('.skill-fill');
-
 const skillObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -145,20 +215,16 @@ if (skillsSection) skillObserver.observe(skillsSection);
 
 // ===== FAQ ACCORDION =====
 const faqItems = document.querySelectorAll('.faq-item');
-
 faqItems.forEach(item => {
   const btn = item.querySelector('.faq-q');
   const answer = item.querySelector('.faq-a');
-
   btn.addEventListener('click', () => {
     const isOpen = answer.classList.contains('open');
-
     // Close all
     faqItems.forEach(other => {
       other.querySelector('.faq-a').classList.remove('open');
       other.querySelector('.faq-q').classList.remove('active');
     });
-
     // Open clicked if was closed
     if (!isOpen) {
       answer.classList.add('open');
@@ -174,14 +240,12 @@ if (contactForm) {
     const btn = contactForm.querySelector('button[type="submit"]');
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
     btn.disabled = true;
-    // Form submits normally to Formspree
   });
 }
 
 // ===== SMOOTH ACTIVE NAV LINK =====
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
-
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(section => {
@@ -196,11 +260,6 @@ window.addEventListener('scroll', () => {
       link.style.color = 'var(--gold)';
     }
   });
-});
-
-// ===== STAGGERED REVEAL FOR GRIDS =====
-document.querySelectorAll('.services-grid .service-card, .projects-grid .project-card').forEach((card, i) => {
-  card.style.transitionDelay = `${i * 0.08}s`;
 });
 
 // ===== PARALLAX HERO ORBS =====
@@ -218,13 +277,18 @@ toolTags.forEach((tag, i) => {
   tag.style.animationDelay = `${i * 0.05}s`;
 });
 
-// ===== PAGE LOAD ANIMATION =====
+// ===== DYNAMIC YEAR & LOAD ANIMATION =====
 window.addEventListener('load', () => {
   document.body.style.opacity = '0';
   document.body.style.transition = 'opacity 0.5s ease';
   setTimeout(() => {
     document.body.style.opacity = '1';
   }, 50);
+  
+  const yearSpan = document.getElementById('year');
+  if(yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
 });
 
 console.log('%c✦ Portfolio by Md. Tajul Islam (Raju)', 'color: #c9a84c; font-size: 14px; font-weight: bold;');
