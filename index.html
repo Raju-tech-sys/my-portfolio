@@ -11,186 +11,25 @@
   <title>Md. Tajul Islam (Raju) — IT Professional & AI Specialist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <style>
-    /* ========== AI ANIMATION ADDITIONS ========== */
-
-    /* LOADER */
-    .ai-loader {
-      position: fixed;
-      inset: 0;
-      background: #0a0a1a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-    .ai-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-rings {
-      position: relative;
-      width: 70px;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .spinner-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 3px solid transparent;
-      animation: spinRing 1s linear infinite;
-    }
-    .spinner-ring:nth-child(1) { width: 60px; height: 60px; border-top-color: #c9a84c; animation-duration: 0.9s; }
-    .spinner-ring:nth-child(2) { width: 44px; height: 44px; border-top-color: #a855f7; animation-duration: 1.3s; animation-direction: reverse; }
-    .spinner-ring:nth-child(3) { width: 28px; height: 28px; border-top-color: #c9a84c; animation-duration: 0.7s; }
-    @keyframes spinRing { to { transform: rotate(360deg); } }
-
-    /* CURSOR GLOW */
-    .cursor-glow {
-      width: 350px;
-      height: 350px;
-      background: radial-gradient(circle, rgba(201,168,76,0.10) 0%, rgba(168,85,247,0.06) 40%, transparent 70%);
-      position: fixed;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: left 0.08s, top 0.08s;
-      z-index: 0;
-      border-radius: 50%;
-    }
-
-    /* PARTICLE CANVAS */
-    #particleCanvas {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* HERO BADGE (Available badge) */
-    .hero-avail-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(201,168,76,0.12);
-      border: 1px solid rgba(201,168,76,0.35);
-      color: #c9a84c;
-      padding: 0.4rem 1.1rem;
-      border-radius: 50px;
-      font-size: 0.82rem;
-      font-family: 'DM Sans', sans-serif;
-      margin-bottom: 1.2rem;
-      animation: popIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.8s both;
-    }
-    @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .avail-dot {
-      width: 8px; height: 8px;
-      background: #22c55e;
-      border-radius: 50%;
-      animation: pulseDot 2s infinite;
-    }
-    @keyframes pulseDot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
-      50%       { box-shadow: 0 0 0 7px rgba(34,197,94,0); }
-    }
-
-    /* ORBIT VISUAL (right side of hero) */
-    .hero-orbit-wrap {
-      position: absolute;
-      right: 6%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 320px;
-      height: 320px;
-      z-index: 1;
-      animation: fadeLeft 1.2s ease 1s both;
-    }
-    @keyframes fadeLeft { from { opacity: 0; transform: translateY(-50%) translateX(60px); } to { opacity: 1; transform: translateY(-50%) translateX(0); } }
-    .orbit-ring {
-      position: absolute;
-      top: 50%; left: 50%;
-      border: 1px solid rgba(201,168,76,0.20);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .ring-1 { width: 170px; height: 170px; animation: orbitSpin 9s linear infinite; }
-    .ring-2 { width: 230px; height: 230px; animation: orbitSpin 14s linear infinite reverse; border-color: rgba(168,85,247,0.18); }
-    .ring-3 { width: 300px; height: 300px; animation: orbitSpin 20s linear infinite; }
-    @keyframes orbitSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-    .orbit-dot {
-      width: 10px; height: 10px;
-      background: #c9a84c;
-      border-radius: 50%;
-      position: absolute;
-      top: -5px; left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 0 10px rgba(201,168,76,0.8);
-    }
-    .ring-2 .orbit-dot { background: #a855f7; box-shadow: 0 0 10px rgba(168,85,247,0.8); }
-    .orbit-center {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 110px; height: 110px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      border: 2px solid rgba(201,168,76,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.6rem;
-      color: #c9a84c;
-      z-index: 3;
-      box-shadow: 0 0 30px rgba(201,168,76,0.25);
-    }
-    .float-badge {
-      position: absolute;
-      background: rgba(10,10,26,0.85);
-      border: 1px solid rgba(201,168,76,0.3);
-      backdrop-filter: blur(10px);
-      border-radius: 10px;
-      padding: 0.45rem 0.75rem;
-      font-size: 1.1rem;
-      color: #c9a84c;
-      z-index: 4;
-    }
-    .fb-1 { top: 8%;  right: 4%;  animation: floatUD 3s ease-in-out infinite; }
-    .fb-2 { bottom: 18%; right: -2%; animation: floatUD 3s ease-in-out 0.5s infinite; color: #a855f7; border-color: rgba(168,85,247,0.35); }
-    .fb-3 { bottom: 8%;  left: 4%;  animation: floatUD 3s ease-in-out 1s infinite; }
-    .fb-4 { top: 18%;  left: -2%; animation: floatUD 3s ease-in-out 1.5s infinite; color: #a855f7; border-color: rgba(168,85,247,0.35); }
-    @keyframes floatUD { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-    /* TYPING CURSOR */
-    .typing-cursor { display: inline-block; color: #c9a84c; animation: blinkCur 1s infinite; margin-left: 2px; }
-    @keyframes blinkCur { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-
-    /* Adjust hero to accommodate orbit on large screens */
-    @media (min-width: 1000px) {
-      .hero-content { padding-right: 360px; }
-    }
-    @media (max-width: 999px) {
-      .hero-orbit-wrap { display: none; }
-    }
-  </style>
 </head>
 <body>
 
-  <!-- AI LOADER -->
-  <div class="ai-loader" id="aiLoader">
-    <div class="loader-rings">
+  <!-- LOADER (AI style) -->
+  <div class="loader" id="loader">
+    <div class="loader-spinner">
       <div class="spinner-ring"></div>
       <div class="spinner-ring"></div>
       <div class="spinner-ring"></div>
     </div>
   </div>
 
-  <!-- CURSOR GLOW -->
+  <!-- CURSOR GLOW (AI style) -->
   <div class="cursor-glow" id="cursorGlow"></div>
 
-  <!-- CURSOR (original) -->
+  <!-- CUSTOM CURSOR (original) -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursorFollower"></div>
 
@@ -225,7 +64,7 @@
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <!-- Particle Canvas (AI animation) -->
+    <!-- Particle Canvas (AI) -->
     <canvas id="particleCanvas"></canvas>
 
     <div class="hero-bg">
@@ -234,7 +73,7 @@
       <div class="grid-lines"></div>
     </div>
 
-    <!-- Orbit Visual (AI animation, right side) -->
+    <!-- Orbit Visual (AI) -->
     <div class="hero-orbit-wrap">
       <div class="orbit-ring ring-1"><div class="orbit-dot"></div></div>
       <div class="orbit-ring ring-2"><div class="orbit-dot"></div></div>
@@ -247,7 +86,7 @@
     </div>
 
     <div class="hero-content">
-      <!-- Available badge (AI animation) -->
+      <!-- Available Badge (AI) -->
       <div class="hero-avail-badge">
         <span class="avail-dot"></span> Available for Freelance
       </div>
@@ -257,15 +96,13 @@
         Md. Tajul Islam<br/>
         <span class="gold-text">Raju</span>
       </h1>
-
-      <!-- Typing role line (AI animation) -->
-      <p class="hero-sub reveal" style="margin-bottom:0.5rem;">
+      <p class="hero-sub reveal">
         15 Years of IT Expertise · AI-Powered Solutions · Dhaka, Bangladesh
       </p>
-      <p class="reveal" style="font-family:'DM Sans',sans-serif;font-size:1rem;color:rgba(255,255,255,0.7);margin-bottom:1.5rem;">
-        I specialize in <span id="typingRole" style="color:#c9a84c;font-weight:600;"></span><span class="typing-cursor">|</span>
+      <!-- Typing Role Line (AI) -->
+      <p class="hero-typing-line reveal">
+        I specialize in <span class="typing-role" id="typingRole"></span><span class="typing-cursor">|</span>
       </p>
-
       <div class="hero-btns reveal">
         <a href="#projects" class="btn-gold">View My Work</a>
         <a href="#contact" class="btn-outline">Get In Touch</a>
@@ -319,18 +156,9 @@
             I specialize in <strong>AI operations</strong> — leveraging artificial intelligence to solve real-world problems, automate workflows, and create intelligent platforms. Alongside that, I craft visually compelling digital experiences through web design and UI/UX. Whether it's building a crypto intelligence platform or designing a brand identity, I bring precision, creativity, and 15 years of refined expertise to every project.
           </p>
           <div class="about-meta">
-            <div class="meta-item">
-              <i class="fa-solid fa-location-dot"></i>
-              <span>Dhaka, Bangladesh</span>
-            </div>
-            <div class="meta-item">
-              <i class="fa-solid fa-briefcase"></i>
-              <span>IT Professional (Private Firm)</span>
-            </div>
-            <div class="meta-item">
-              <i class="fa-solid fa-robot"></i>
-              <span>AI Specialist & Freelancer</span>
-            </div>
+            <div class="meta-item"><i class="fa-solid fa-location-dot"></i><span>Dhaka, Bangladesh</span></div>
+            <div class="meta-item"><i class="fa-solid fa-briefcase"></i><span>IT Professional (Private Firm)</span></div>
+            <div class="meta-item"><i class="fa-solid fa-robot"></i><span>AI Specialist & Freelancer</span></div>
           </div>
           <a href="#contact" class="btn-gold">Work With Me</a>
         </div>
@@ -340,51 +168,19 @@
 
   <!-- SERVICES -->
   <section class="services section" id="services">
-    <div class="services-bg">
-      <div class="gold-orb orb3"></div>
-    </div>
+    <div class="services-bg"><div class="gold-orb orb3"></div></div>
     <div class="container">
       <div class="section-header reveal">
         <p class="section-label">— What I Do</p>
         <h2 class="section-title">My <span class="gold-text">Services</span></h2>
       </div>
       <div class="services-grid">
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-robot"></i></div>
-          <h3>AI Operations & Automation</h3>
-          <p>Harnessing the power of artificial intelligence to build smart tools, automate processes, and create intelligent platforms that give businesses a competitive edge.</p>
-          <div class="service-tag">AI · Automation · Platforms</div>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-palette"></i></div>
-          <h3>Web Design & UI/UX</h3>
-          <p>Creating modern, responsive, and visually compelling websites and digital interfaces. From concept to deployment — clean code, premium aesthetics, real results.</p>
-          <div class="service-tag">HTML · CSS · JavaScript</div>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-chart-line"></i></div>
-          <h3>Crypto Intelligence Tools</h3>
-          <p>Building AI-powered crypto platforms with live market data, whale tracking, AI signals, and scam detection — tailored for serious traders and analysts.</p>
-          <div class="service-tag">Crypto · DeFi · Analytics</div>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
-          <h3>IT Consulting & Support</h3>
-          <p>With 15+ years in the IT industry, I provide professional consulting, technical support, and strategic guidance to businesses navigating digital transformation.</p>
-          <div class="service-tag">Consulting · Support · Strategy</div>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-          <h3>Freelance Projects</h3>
-          <p>Available for freelance engagements — web builds, AI tool development, design work, and IT solutions for startups, SMEs, and individuals across Bangladesh and globally.</p>
-          <div class="service-tag">Freelance · Remote · Global</div>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-shield-halved"></i></div>
-          <h3>Digital Security & Audit</h3>
-          <p>Identifying vulnerabilities, auditing digital assets, and implementing best practices to protect your online presence, applications, and data from modern threats.</p>
-          <div class="service-tag">Security · Audit · Privacy</div>
-        </div>
+        <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-robot"></i></div><h3>AI Operations & Automation</h3><p>Harnessing the power of artificial intelligence to build smart tools, automate processes, and create intelligent platforms that give businesses a competitive edge.</p><div class="service-tag">AI · Automation · Platforms</div></div>
+        <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-palette"></i></div><h3>Web Design & UI/UX</h3><p>Creating modern, responsive, and visually compelling websites and digital interfaces. From concept to deployment — clean code, premium aesthetics, real results.</p><div class="service-tag">HTML · CSS · JavaScript</div></div>
+        <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-chart-line"></i></div><h3>Crypto Intelligence Tools</h3><p>Building AI-powered crypto platforms with live market data, whale tracking, AI signals, and scam detection — tailored for serious traders and analysts.</p><div class="service-tag">Crypto · DeFi · Analytics</div></div>
+        <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>IT Consulting & Support</h3><p>With 15+ years in the IT industry, I provide professional consulting, technical support, and strategic guidance to businesses navigating digital transformation.</p><div class="service-tag">Consulting · Support · Strategy</div></div>
+        <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h3>Freelance Projects</h3><p>Available for freelance engagements — web builds, AI tool development, design work, and IT solutions for startups, SMEs, and individuals across Bangladesh and globally.</p><div class="service-tag">Freelance · Remote · Global</div></div>
+        <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-shield-halved"></i></div><h3>Digital Security & Audit</h3><p>Identifying vulnerabilities, auditing digital assets, and implementing best practices to protect your online presence, applications, and data from modern threats.</p><div class="service-tag">Security · Audit · Privacy</div></div>
       </div>
     </div>
   </section>
@@ -398,41 +194,11 @@
       </div>
       <div class="skills-layout">
         <div class="skills-bars reveal">
-          <div class="skill-item">
-            <div class="skill-label">
-              <span>AI Operations & Prompt Engineering</span>
-              <span class="skill-pct">92%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-label">
-              <span>Web Design & Frontend Development</span>
-              <span class="skill-pct">88%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-label">
-              <span>UI/UX Design</span>
-              <span class="skill-pct">85%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-label">
-              <span>Crypto Analytics & DeFi Tools</span>
-              <span class="skill-pct">80%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-label">
-              <span>IT Infrastructure & Management</span>
-              <span class="skill-pct">90%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
-          </div>
+          <div class="skill-item"><div class="skill-label"><span>AI Operations & Prompt Engineering</span><span class="skill-pct">92%</span></div><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>Web Design & Frontend Development</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>UI/UX Design</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>Crypto Analytics & DeFi Tools</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="80"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>IT Infrastructure & Management</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
         </div>
         <div class="tools-grid reveal">
           <p class="section-label" style="margin-bottom:1.5rem;">— Tools I Use</p>
@@ -457,16 +223,13 @@
 
   <!-- PROJECTS -->
   <section class="projects section" id="projects">
-    <div class="projects-bg">
-      <div class="gold-orb orb4"></div>
-    </div>
+    <div class="projects-bg"><div class="gold-orb orb4"></div></div>
     <div class="container">
       <div class="section-header reveal">
         <p class="section-label">— Portfolio</p>
         <h2 class="section-title">Featured <span class="gold-text">Projects</span></h2>
       </div>
       <div class="projects-grid">
-
         <!-- CryptoSense AI -->
         <div class="project-card featured reveal">
           <div class="project-img">
@@ -475,64 +238,32 @@
                 <img src="https://raw.githubusercontent.com/Raju-tech-sys/my-portfolio/main/crypto1.PNG" alt="CryptoSense Dashboard" class="slide active"/>
                 <img src="https://raw.githubusercontent.com/Raju-tech-sys/my-portfolio/main/crypto2.PNG" alt="AI Signals" class="slide" loading="lazy"/>
                 <img src="https://raw.githubusercontent.com/Raju-tech-sys/my-portfolio/main/crypto3.PNG" alt="Whale Tracker" class="slide" loading="lazy"/>
-                <div class="slide-dots">
-                  <span class="dot active"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                </div>
+                <div class="slide-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
               </div>
             </div>
-            <div class="project-overlay">
-              <a href="https://cryptosense-ai-beryl.vercel.app" target="_blank" class="project-link">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Site
-              </a>
-            </div>
+            <div class="project-overlay"><a href="https://cryptosense-ai-beryl.vercel.app" target="_blank" class="project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Site</a></div>
           </div>
           <div class="project-info">
             <span class="project-badge">Featured · AI Platform</span>
             <h3>CryptoSense AI</h3>
             <p>A full-scale AI-powered crypto intelligence platform with live market data dashboard, AI trading signals, whale tracker, token scanner, scam detector (smart contract analyzer), watchlist, and an integrated Claude AI chat assistant. Supports ETH, SOL, BNB, BASE, and ARB chains.</p>
-            <div class="project-tech">
-              <span>HTML/CSS/JS</span>
-              <span>Claude API</span>
-              <span>DexScreener</span>
-              <span>CoinGecko</span>
-              <span>Etherscan</span>
-              <span>Vercel</span>
-            </div>
-            <a href="https://cryptosense-ai-beryl.vercel.app" target="_blank" class="btn-gold-sm">
-              Visit Platform <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            <div class="project-tech"><span>HTML/CSS/JS</span><span>Claude API</span><span>DexScreener</span><span>CoinGecko</span><span>Etherscan</span><span>Vercel</span></div>
+            <a href="https://cryptosense-ai-beryl.vercel.app" target="_blank" class="btn-gold-sm">Visit Platform <i class="fa-solid fa-arrow-right"></i></a>
           </div>
         </div>
-
         <!-- Portfolio Website -->
         <div class="project-card reveal">
           <div class="project-img">
-            <div class="project-img-inner portfolio-bg">
-              <div class="portfolio-visual">
-                <i class="fa-solid fa-user-tie"></i>
-              </div>
-            </div>
-            <div class="project-overlay">
-              <a href="#hero" class="project-link">
-                <i class="fa-solid fa-eye"></i> You're Here
-              </a>
-            </div>
+            <div class="project-img-inner portfolio-bg"><div class="portfolio-visual"><i class="fa-solid fa-user-tie"></i></div></div>
+            <div class="project-overlay"><a href="#hero" class="project-link"><i class="fa-solid fa-eye"></i> You're Here</a></div>
           </div>
           <div class="project-info">
             <span class="project-badge">Web Design · Personal Brand</span>
             <h3>Personal Portfolio Website</h3>
             <p>This very portfolio — a premium, responsive personal website built with pure HTML, CSS, and JavaScript. Features smooth animations, gold-navy aesthetic, custom cursor, scroll reveals, and mobile-first design. Hosted on Vercel for free.</p>
-            <div class="project-tech">
-              <span>HTML5</span>
-              <span>CSS3</span>
-              <span>JavaScript</span>
-              <span>Vercel</span>
-            </div>
+            <div class="project-tech"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Vercel</span></div>
           </div>
         </div>
-
         <!-- Sanchoy Tahbil -->
         <div class="project-card reveal">
           <div class="project-img">
@@ -541,58 +272,31 @@
                 <img src="https://raw.githubusercontent.com/Raju-tech-sys/my-portfolio/main/saving_fund_1.PNG" alt="সঞ্চয় তহবিল Login" class="slide active" style="width:100%;height:100%;object-fit:cover;"/>
                 <img src="https://raw.githubusercontent.com/Raju-tech-sys/my-portfolio/main/saving_fund_2.PNG" alt="সঞ্চয় তহবিল Dashboard" class="slide" loading="lazy" style="width:100%;height:100%;object-fit:cover;"/>
                 <img src="https://raw.githubusercontent.com/Raju-tech-sys/my-portfolio/main/saving_fund_3.PNG" alt="সঞ্চয় তহবিল Member View" class="slide" loading="lazy" style="width:100%;height:100%;object-fit:cover;"/>
-                <div class="slide-dots">
-                  <span class="dot active"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                </div>
+                <div class="slide-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
               </div>
             </div>
-            <div class="project-overlay">
-              <a href="https://savings-fund-app-tiza.vercel.app/" target="_blank" class="project-link">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Site
-              </a>
-            </div>
+            <div class="project-overlay"><a href="https://savings-fund-app-tiza.vercel.app/" target="_blank" class="project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Site</a></div>
           </div>
           <div class="project-info">
             <span class="project-badge">Web App · Finance Tool</span>
             <h3>সঞ্চয় তহবিল</h3>
-            <p>একটি সম্পূর্ণ বাংলা ভিত্তিক সঞ্চয় তহবিল ম্যানেজমেন্ট সিস্টেম। এতে রয়েছে সিকিউর লগইন প্যানেল, অ্যাডমিন ড্যাশবোর্ড, সদস্য ব্যবস্থাপনা, পেমেন্ট ট্র্যাকিং, বকেয়া তালিকা, রিপোর্ট ও PDF এক্সপোর্ট, এবং নোটিশ বোর্ড। বাংলা ও ইংরেজি উভয় ভাষায় সম্পূর্ণ কার্যকর।</p>
-            <div class="project-tech">
-              <span>HTML/CSS/JS</span>
-              <span>Bangla UI</span>
-              <span>Admin Panel</span>
-              <span>PDF Export</span>
-              <span>Vercel</span>
-            </div>
-            <a href="https://savings-fund-app-tiza.vercel.app/" target="_blank" class="btn-gold-sm">
-              Visit App <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            <p>একটি সম্পূর্ণ বাংলা ভিত্তিক সঞ্চয় তহবিল ম্যানেজমেন্ট সিস্টেম। এতে রয়েছে সিকিউর লগইন প্যানেল, অ্যাডমিন ড্যাশবোর্ড, সদস্য ব্যবস্থাপনা, পেমেন্ট ট্র্যাকিং, বকেয়া তালিকা, রিপোর্ট ও PDF এক্সপোর্ট, এবং নোটিশ বোর্ড।</p>
+            <div class="project-tech"><span>HTML/CSS/JS</span><span>Bangla UI</span><span>Admin Panel</span><span>PDF Export</span><span>Vercel</span></div>
+            <a href="https://savings-fund-app-tiza.vercel.app/" target="_blank" class="btn-gold-sm">Visit App <i class="fa-solid fa-arrow-right"></i></a>
           </div>
         </div>
-
         <!-- AI Design Projects -->
         <div class="project-card reveal">
           <div class="project-img">
-            <div class="project-img-inner design-bg">
-              <div class="design-visual">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-              </div>
-            </div>
+            <div class="project-img-inner design-bg"><div class="design-visual"><i class="fa-solid fa-wand-magic-sparkles"></i></div></div>
           </div>
           <div class="project-info">
             <span class="project-badge">AI-Assisted · Design</span>
             <h3>AI-Powered Design Projects</h3>
-            <p>A growing collection of web interfaces, UI components, and digital designs crafted using AI collaboration — combining human creativity with Claude AI and ChatGPT to produce fast, premium-quality digital outputs for various clients and personal experiments.</p>
-            <div class="project-tech">
-              <span>Claude AI</span>
-              <span>ChatGPT</span>
-              <span>UI/UX</span>
-              <span>Figma</span>
-            </div>
+            <p>A growing collection of web interfaces, UI components, and digital designs crafted using AI collaboration — combining human creativity with Claude AI and ChatGPT to produce fast, premium-quality digital outputs.</p>
+            <div class="project-tech"><span>Claude AI</span><span>ChatGPT</span><span>UI/UX</span><span>Figma</span></div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -605,37 +309,13 @@
         <h2 class="section-title">My <span class="gold-text">Process</span></h2>
       </div>
       <div class="process-steps">
-        <div class="process-step reveal">
-          <div class="step-num">01</div>
-          <div class="step-content">
-            <h3>Discovery & Brief</h3>
-            <p>Understanding your goals, audience, and vision through a detailed conversation before touching any tool or code.</p>
-          </div>
-        </div>
+        <div class="process-step reveal"><div class="step-num">01</div><div class="step-content"><h3>Discovery & Brief</h3><p>Understanding your goals, audience, and vision through a detailed conversation before touching any tool or code.</p></div></div>
         <div class="process-connector"></div>
-        <div class="process-step reveal">
-          <div class="step-num">02</div>
-          <div class="step-content">
-            <h3>Strategy & Planning</h3>
-            <p>Mapping out the architecture, design direction, tech stack, and project timeline for a clear and efficient path forward.</p>
-          </div>
-        </div>
+        <div class="process-step reveal"><div class="step-num">02</div><div class="step-content"><h3>Strategy & Planning</h3><p>Mapping out the architecture, design direction, tech stack, and project timeline for a clear and efficient path forward.</p></div></div>
         <div class="process-connector"></div>
-        <div class="process-step reveal">
-          <div class="step-num">03</div>
-          <div class="step-content">
-            <h3>Design & Build</h3>
-            <p>Crafting the UI, writing clean code, and integrating AI tools to bring the product to life — fast, precise, and polished.</p>
-          </div>
-        </div>
+        <div class="process-step reveal"><div class="step-num">03</div><div class="step-content"><h3>Design & Build</h3><p>Crafting the UI, writing clean code, and integrating AI tools to bring the product to life — fast, precise, and polished.</p></div></div>
         <div class="process-connector"></div>
-        <div class="process-step reveal">
-          <div class="step-num">04</div>
-          <div class="step-content">
-            <h3>Deliver & Support</h3>
-            <p>Deploying to production, handing over clean files, and providing ongoing support to ensure everything runs perfectly.</p>
-          </div>
-        </div>
+        <div class="process-step reveal"><div class="step-num">04</div><div class="step-content"><h3>Deliver & Support</h3><p>Deploying to production, handing over clean files, and providing ongoing support to ensure everything runs perfectly.</p></div></div>
       </div>
     </div>
   </section>
@@ -648,55 +328,18 @@
         <h2 class="section-title">Common <span class="gold-text">Questions</span></h2>
       </div>
       <div class="faq-list">
-        <div class="faq-item reveal">
-          <button class="faq-q">
-            Are you available for freelance projects? <i class="fa-solid fa-plus"></i>
-          </button>
-          <div class="faq-a">
-            <p>Yes! Alongside my full-time IT role, I take on selective freelance projects — particularly web design, AI tool development, and crypto platform builds. Reach out via WhatsApp or email to discuss your project.</p>
-          </div>
-        </div>
-        <div class="faq-item reveal">
-          <button class="faq-q">
-            What makes you different from other developers? <i class="fa-solid fa-plus"></i>
-          </button>
-          <div class="faq-a">
-            <p>15 years of real-world IT experience combined with cutting-edge AI expertise. I don't just write code — I understand business needs, think strategically, and leverage the latest AI tools to deliver better results, faster.</p>
-          </div>
-        </div>
-        <div class="faq-item reveal">
-          <button class="faq-q">
-            How long does a website project take? <i class="fa-solid fa-plus"></i>
-          </button>
-          <div class="faq-a">
-            <p>A standard portfolio or landing page takes 3–7 days. A more complex platform like CryptoSense AI may take 2–4 weeks depending on scope and features. I always set clear timelines upfront.</p>
-          </div>
-        </div>
-        <div class="faq-item reveal">
-          <button class="faq-q">
-            Do you work with clients outside Bangladesh? <i class="fa-solid fa-plus"></i>
-          </button>
-          <div class="faq-a">
-            <p>Absolutely. I work remotely with clients worldwide. Communication is handled via WhatsApp, email, or video call — whichever works best for you.</p>
-          </div>
-        </div>
-        <div class="faq-item reveal">
-          <button class="faq-q">
-            What AI tools do you specialize in? <i class="fa-solid fa-plus"></i>
-          </button>
-          <div class="faq-a">
-            <p>I primarily work with Claude AI (Anthropic), ChatGPT (OpenAI), and various AI APIs for building intelligent applications. I also use AI for design assistance, prompt engineering, and workflow automation.</p>
-          </div>
-        </div>
+        <div class="faq-item reveal"><button class="faq-q">Are you available for freelance projects? <i class="fa-solid fa-plus"></i></button><div class="faq-a"><p>Yes! Alongside my full-time IT role, I take on selective freelance projects — particularly web design, AI tool development, and crypto platform builds. Reach out via WhatsApp or email to discuss your project.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">What makes you different from other developers? <i class="fa-solid fa-plus"></i></button><div class="faq-a"><p>15 years of real-world IT experience combined with cutting-edge AI expertise. I don't just write code — I understand business needs, think strategically, and leverage the latest AI tools to deliver better results, faster.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">How long does a website project take? <i class="fa-solid fa-plus"></i></button><div class="faq-a"><p>A standard portfolio or landing page takes 3–7 days. A more complex platform like CryptoSense AI may take 2–4 weeks depending on scope and features. I always set clear timelines upfront.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">Do you work with clients outside Bangladesh? <i class="fa-solid fa-plus"></i></button><div class="faq-a"><p>Absolutely. I work remotely with clients worldwide. Communication is handled via WhatsApp, email, or video call — whichever works best for you.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">What AI tools do you specialize in? <i class="fa-solid fa-plus"></i></button><div class="faq-a"><p>I primarily work with Claude AI (Anthropic), ChatGPT (OpenAI), and various AI APIs for building intelligent applications. I also use AI for design assistance, prompt engineering, and workflow automation.</p></div></div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="contact section" id="contact">
-    <div class="contact-bg">
-      <div class="gold-orb orb5"></div>
-    </div>
+    <div class="contact-bg"><div class="gold-orb orb5"></div></div>
     <div class="container">
       <div class="section-header reveal">
         <p class="section-label">— Let's Connect</p>
@@ -706,45 +349,17 @@
         <div class="contact-info reveal">
           <p class="contact-lead">Have a project in mind? Want to collaborate? Or just want to say hello? I'd love to hear from you.</p>
           <div class="contact-methods">
-            <a href="mailto:rashfi.raju@gmail.com" class="contact-method">
-              <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-              <div>
-                <span>Email</span>
-                <strong>rashfi.raju@gmail.com</strong>
-              </div>
-            </a>
-            <a href="https://wa.me/8801913644861" target="_blank" class="contact-method">
-              <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
-              <div>
-                <span>WhatsApp</span>
-                <strong>+880 1913-644861</strong>
-              </div>
-            </a>
-            <a href="https://www.facebook.com/share/1D3B1ztGJm/" target="_blank" class="contact-method">
-              <div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div>
-              <div>
-                <span>Facebook</span>
-                <strong>Md. Tajul Islam Raju</strong>
-              </div>
-            </a>
+            <a href="mailto:rashfi.raju@gmail.com" class="contact-method"><div class="contact-icon"><i class="fa-solid fa-envelope"></i></div><div><span>Email</span><strong>rashfi.raju@gmail.com</strong></div></a>
+            <a href="https://wa.me/8801913644861" target="_blank" class="contact-method"><div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div><div><span>WhatsApp</span><strong>+880 1913-644861</strong></div></a>
+            <a href="https://www.facebook.com/share/1D3B1ztGJm/" target="_blank" class="contact-method"><div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div><div><span>Facebook</span><strong>Md. Tajul Islam Raju</strong></div></a>
           </div>
         </div>
         <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/mlgvovbo" method="POST">
-          <div class="form-group">
-            <input type="text" name="name" placeholder="Your Name" required/>
-          </div>
-          <div class="form-group">
-            <input type="email" name="email" placeholder="Your Email" required/>
-          </div>
-          <div class="form-group">
-            <input type="text" name="subject" placeholder="Subject"/>
-          </div>
-          <div class="form-group">
-            <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="btn-gold full-width">
-            Send Message <i class="fa-solid fa-paper-plane"></i>
-          </button>
+          <div class="form-group"><input type="text" name="name" placeholder="Your Name" required/></div>
+          <div class="form-group"><input type="email" name="email" placeholder="Your Email" required/></div>
+          <div class="form-group"><input type="text" name="subject" placeholder="Subject"/></div>
+          <div class="form-group"><textarea name="message" placeholder="Your Message" rows="5" required></textarea></div>
+          <button type="submit" class="btn-gold full-width">Send Message <i class="fa-solid fa-paper-plane"></i></button>
           <p class="form-note">* Or reach me directly via WhatsApp for a faster response.</p>
         </form>
       </div>
@@ -757,10 +372,8 @@
       <div class="footer-top">
         <div class="footer-logo">T<span>.</span>R</div>
         <div class="footer-links">
-          <a href="#hero">Home</a>
-          <a href="#about">About</a>
-          <a href="#services">Services</a>
-          <a href="#projects">Projects</a>
+          <a href="#hero">Home</a><a href="#about">About</a>
+          <a href="#services">Services</a><a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
         </div>
         <div class="footer-social">
@@ -777,112 +390,5 @@
   </footer>
 
   <script src="script.js"></script>
-
-  <script>
-    /* ====== AI ANIMATION SCRIPTS ====== */
-
-    /* 1. LOADER — hide after 1.8s */
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('aiLoader').classList.add('hidden');
-      }, 1800);
-    });
-
-    /* 2. CURSOR GLOW */
-    document.addEventListener('mousemove', e => {
-      const g = document.getElementById('cursorGlow');
-      g.style.left = e.clientX + 'px';
-      g.style.top  = e.clientY + 'px';
-    });
-
-    /* 3. PARTICLE CANVAS */
-    (function() {
-      const canvas = document.getElementById('particleCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      function resize() {
-        canvas.width  = canvas.parentElement.offsetWidth;
-        canvas.height = canvas.parentElement.offsetHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const particles = [];
-      const COUNT = 90;
-      class P {
-        constructor() { this.reset(); }
-        reset() {
-          this.x  = Math.random() * canvas.width;
-          this.y  = Math.random() * canvas.height;
-          this.r  = Math.random() * 1.8 + 0.4;
-          this.vx = (Math.random() - 0.5) * 0.4;
-          this.vy = (Math.random() - 0.5) * 0.4;
-          this.o  = Math.random() * 0.45 + 0.1;
-          this.gold = Math.random() > 0.5;
-        }
-        update() {
-          this.x += this.vx; this.y += this.vy;
-          if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-          ctx.fillStyle = this.gold
-            ? `rgba(201,168,76,${this.o})`
-            : `rgba(168,85,247,${this.o * 0.7})`;
-          ctx.fill();
-        }
-      }
-      for (let i = 0; i < COUNT; i++) particles.push(new P());
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        /* connect nearby particles */
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const d  = Math.sqrt(dx*dx + dy*dy);
-            if (d < 90) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(201,168,76,${0.08 * (1 - d/90)})`;
-              ctx.lineWidth = 0.5;
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-
-    /* 4. TYPING ROLE EFFECT */
-    (function() {
-      const el = document.getElementById('typingRole');
-      if (!el) return;
-      const roles = ['AI Operations', 'Web Design', 'IT Consulting', 'Crypto Analytics', 'Prompt Engineering'];
-      let ri = 0, ci = 0, deleting = false;
-      function tick() {
-        const word = roles[ri];
-        if (!deleting) {
-          el.textContent = word.slice(0, ci + 1);
-          ci++;
-          if (ci === word.length) { deleting = true; setTimeout(tick, 1800); return; }
-        } else {
-          el.textContent = word.slice(0, ci - 1);
-          ci--;
-          if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
-        }
-        setTimeout(tick, deleting ? 55 : 100);
-      }
-      setTimeout(tick, 2200);
-    })();
-
-    /* 5. FOOTER YEAR */
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
